@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<!-- ================================================================== -->
+<!-- PETZAMIGO — VITRINE PREMIUM PARA CÃES                              -->
+<!-- Arquivo único: HTML + CSS + JavaScript (pronto para abrir no VS Code) -->
+<!-- Como usar: salve como petzamigo.html e abra no navegador.           -->
+<!-- ================================================================== -->
+<html lang="pt-BR">
+
+<head>
+  <!-- Define o padrão de acentuação (português) -->
+  <meta charset="UTF-8" />
+  <!-- Faz o site se adaptar a telas de celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Título que aparece na aba do navegador -->
+  <title>PetzAmigo | Loja Premium para Cães</title>
+  <!-- Descrição exibida em buscas e compartilhamentos -->
+  <meta name="description" content="Produtos selecionados e banho e tosa premium para o seu cão. Pedidos pelo WhatsApp." />
+  <!-- Ícone da aba (opcional; troque pelo favicon da loja) -->
+  <link rel="icon" href="data:," />
+
+  <!-- ================================================================== -->
+  <!-- CSS — TODO O ESTILO DO SITE                                        -->
+  <!-- ================================================================== -->
+  <style>
+    /* -------------------------------------------------------------- */
+    /* DESIGN SYSTEM — cores da marca (vermelho e amarelo)             */
+    /* -------------------------------------------------------------- */
+    :root {
+      /* Sucesso (verde do WhatsApp) */
+      --whatsapp: oklch(0.77 0.19 152);
+      /* Texto sobre o verde */
+      --whatsapp-foreground: oklch(0.99 0.02 95);
+      /* Cor de fundo geral (creme claro) */
+      --background: oklch(0.985 0.02 90);
+      /* Cor principal de textos (marrom escuro) */
+      --foreground: oklch(0.25 0.06 35);
+      /* Fundo dos cartões (branco) */
+      --card: oklch(1 0 0);
+      /* Texto dentro dos cartões */
+      --card-foreground: oklch(0.25 0.06 35);
+      /* Vermelho principal da marca */
+      --primary: oklch(0.56 0.22 27);
+      /* Texto sobre o vermelho (quase branco) */
+      --primary-foreground: oklch(0.99 0.02 95);
+      /* Amarelo brilhante (destaque) */
+      --primary-glow: oklch(0.86 0.18 92);
+      /* Amarelo suave (fundo de botões secundários) */
+      --secondary: oklch(0.92 0.15 95);
+      /* Texto sobre o amarelo suave */
+      --secondary-foreground: oklch(0.3 0.1 45);
+      /* Amarelo acento (banheira, sol) */
+      --accent: oklch(0.84 0.18 88);
+      /* Texto sobre o acento */
+      --accent-foreground: oklch(0.28 0.09 40);
+      /* Cor de erro (vermelho mais escuro) */
+      --destructive: oklch(0.55 0.24 27);
+      /* Cor das bordas dos cartões */
+      --border: oklch(0.9 0.05 85);
+      /* Cinza amarelado (textos de apoio) */
+      --muted-foreground: oklch(0.5 0.05 45);
+      /* Raio de arredondamento padrão */
+      --radius: 1rem;
+      /* Sombra suave avermelhada */
+      --shadow-soft: 0 18px 40px -18px oklch(0.5 0.2 30 / 0.5);
+      /* Gradiente vermelho → amarelo (títulos e sol) */
+      --gradient-sun: linear-gradient(135deg, var(--primary), var(--primary-glow));
+      /* Gradiente do céu (fundo da cena do banho) */
+      --gradient-sky: linear-gradient(180deg, oklch(0.93 0.14 92), oklch(0.98 0.05 90));
+    }
+
+    /* -------------------------------------------------------------- */
+    /* RESET — limpa estilos padrão do navegador                       */
+    /* -------------------------------------------------------------- */
+    /* Remove margens e preenchimentos padrão de todos os elementos */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* Todas as bordas usam a cor padrão do tema */
+      border-color: var(--border);
+    }
+
+    /* Estilo base do corpo da página */
+    body {
+      /* Usa a fonte do sistema (limpa e moderna) */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      /* Cor de fundo do tema */
+      background-color: var(--background);
+      /* Cor do texto do tema */
+      color: var(--foreground);
+      /* Suaviza o texto */
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* BOTÕES PADRÃO                                                   */
+    /* -------------------------------------------------------------- */
+    /* Botão base compartilhado por todos */
+    .btn {
+      /* O botão pode ser clicado */
+      cursor: pointer;
+      /* Sem contorno de linha por dentro */
+      border: none;
+      /* Texto centralizado */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      /* Espaço entre ícone e texto */
+      gap: 0.5rem;
+      /* Arredondamento suave */
+      border-radius: calc(var(--radius) - 2px);
+      /* Texto em peso médio */
+      font-weight: 600;
+      /* Tamanho padrão de texto */
+      font-size: 0.95rem;
+      /* Espaçamento interno */
+      padding: 0.6rem 1.1rem;
+      /* Transição suave ao passar o mouse */
+      transition: all 0.2s ease;
+    }
+
+    /* Botão principal (vermelho) */
+    .btn-primario {
+      background: var(--primary);
+      /* Texto claro sobre o vermelho */
+      color: var(--primary-foreground);
+    }
+
+    /* Efeito ao passar o mouse no botão principal */
+    .btn-primario:hover {
+      /* Escurece um pouco o vermelho */
+      filter: brightness(0.94);
+    }
+
+    /* Botão secundário (amarelo suave com borda) */
+    .btn-outline {
+      background: transparent;
+      /* Borda na cor padrão */
+      border: 1px solid var(--border);
+      /* Texto na cor normal */
+      color: var(--foreground);
+      /* Fundo do cartão */
+      background-color: var(--card);
+    }
+
+    /* Efeito ao passar o mouse no botão secundário */
+    .btn-outline:hover {
+      /* Fundo levemente amarelado */
+      background: var(--secondary);
+    }
+
+    /* Botão do WhatsApp (verde) */
+    .btn-whatsapp {
+      background: var(--whatsapp);
+      /* Texto claro */
+      color: var(--whatsapp-foreground);
+      /* Ocupa toda a largura do painel */
+      width: 100%;
+      /* Altura maior para destaque */
+      padding: 0.9rem 1.1rem;
+      /* Arredondamento maior */
+      border-radius: var(--radius);
+      /* Texto maior e em negrito */
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Efeito ao passar o mouse no botão do WhatsApp */
+    .btn-whatsapp:hover {
+      /* Escurece um pouco o verde */
+      filter: brightness(0.94);
+    }
+
+    /* Botão desabilitado */
+    .btn:disabled {
+      /* Cursor de não permitido */
+      cursor: not-allowed;
+      /* Reduz a opacidade */
+      opacity: 0.55;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CABEÇALHO / BARRA DE NAVEGAÇÃO                                  */
+    /* -------------------------------------------------------------- */
+    /* Faixa superior branca */
+    header.topo {
+      /* Fixa o cabeçalho no topo da tela */
+      position: sticky;
+      top: 0;
+      /* Sempre acima do conteúdo */
+      z-index: 40;
+      /* Fundo branco levemente translúcido */
+      background: oklch(1 0 0 / 85%);
+      /* Desfoque no que passa por trás */
+      backdrop-filter: blur(8px);
+      /* Linha divisória embaixo */
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Conteúdo interno do cabeçalho, centralizado */
+    .topo-conteudo {
+      /* Largura máxima e centralizado */
+      max-width: 72rem;
+      margin: 0 auto;
+      /* Espaçamento lateral e vertical */
+      padding: 1rem 1.5rem;
+      /* Itens em linha, nas pontas */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Logo "PetzAmigo" */
+    .logo {
+      /* Tamanho grande e em negrito */
+      font-size: 1.5rem;
+      font-weight: 800;
+      /* Sem sublinhado */
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    /* Parte "Amigo" do logo em vermelho */
+    .logo span {
+      color: var(--primary);
+    }
+
+    /* Botão do carrinho no cabeçalho */
+    .btn-carrinho {
+      /* Ícone + texto + contador em linha */
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      /* Fundo transparente com borda */
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.45rem 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s ease;
+    }
+
+    /* Efeito ao passar o mouse no botão do carrinho */
+    .btn-carrinho:hover {
+      background: var(--secondary);
+    }
+
+    /* Selo amarelo com a quantidade de itens */
+    .badge {
+      /* Fundo amarelo */
+      background: var(--secondary);
+      /* Texto escuro */
+      color: var(--secondary-foreground);
+      /* Pílula redonda */
+      border-radius: 999px;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Esconde o selo quando o carrinho está vazio */
+    .badge.oculta {
+      display: none;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* PÁGINA — FUNDO BRANCO / PREENCHIMENTO                           */
+    /* -------------------------------------------------------------- */
+    /* Cada "página" (loja / banho) é uma <section> */
+    .pagina {
+      /* Esconde a página que não está ativa */
+      display: none;
+      /* Ocupa ao menos a tela inteira */
+      min-height: calc(100vh - 64px);
+      /* Fundo branco */
+      background: var(--card);
+    }
+
+    /* Mostra apenas a página ativa */
+    .pagina.ativa {
+      display: block;
+    }
+
+    /* Container central que limita a largura do conteúdo */
+    .container {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* SEÇÃO DE APRESENTAÇÃO (HERO) DA LOJA                            */
+    /* -------------------------------------------------------------- */
+    .hero {
+      /* Espaço abaixo do cabeçalho */
+      padding: 3rem 0 3rem;
+    }
+
+    /* Etiqueta pequena "BEM-VINDO À PETZAMIGO" */
+    .hero-etiqueta {
+      /* Letras maiúsculas pequenas e espaçadas */
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* Título grande do hero */
+    .hero h1 {
+      /* Máxima largura para quebrar bem as linhas */
+      max-width: 42rem;
+      margin-top: 1rem;
+      /* Texto muito grande em telas maiores */
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.12;
+    }
+
+    /* Parte do título com gradiente vermelho→amarelo */
+    .hero h1 .gradiente {
+      /* Aplica o gradiente como cor do texto */
+      background-image: var(--gradient-sun);
+      /* Recorta o gradiente ao contorno das letras */
+      -webkit-background-clip: text;
+      background-clip: text;
+      /* Torna o texto invisível para mostrar o gradiente */
+      color: transparent;
+    }
+
+    /* Parágrafo de apoio do hero */
+    .hero p {
+      margin-top: 1.2rem;
+      max-width: 36rem;
+      color: var(--muted-foreground);
+      line-height: 1.6;
+    }
+
+    /* Linha de botões do hero */
+    .hero-botoes {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Botão grande do hero */
+    .btn-grande {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CARDS DOS 3 PASSOS DA COMPRA                                    */
+    /* -------------------------------------------------------------- */
+    /* Grade dos passos, 3 colunas em telas grandes */
+    .passos {
+      /* Abaixo do hero */
+      padding-bottom: 4rem;
+      /* Colunas automáticas */
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    /* Um cartão de passo */
+    .passo {
+      /* Fundo branco, borda e sombra suave */
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 2);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Etiqueta "PASSO 1/2/3" */
+    .passo .etiqueta {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* Título do passo */
+    .passo h3 {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Descrição do passo */
+    .passo p {
+      margin-top: 0.25rem;
+      font-size: 0.85rem;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CONSULTOR PETZAMIGO (recomendador de produtos)                  */
+    /* -------------------------------------------------------------- */
+    /* Cartão grande do consultor */
+    .consultor {
+      /* Espaço até a vitrine */
+      margin-bottom: 4rem;
+      /* Cartão com borda e sombra */
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 2);
+      padding: 2rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Linha de título com ícone de brilho */
+    .consultor .topico {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+    }
+
+    /* Rótulo pequeno "CONSULTOR PETZAMIGO" */
+    .consultor .topico span {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Título "Conte sobre o seu cão" */
+    .consultor h2 {
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    /* Texto de instrução */
+    .consultor .dica {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Campo de texto (textarea) */
+    .consultor textarea {
+      margin-top: 1.2rem;
+      /* Largura total */
+      width: 100%;
+      /* Altura mínima confortável */
+      min-height: 6rem;
+      /* Borda e arredondamento */
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.9rem;
+      font: inherit;
+      font-size: 0.95rem;
+      /* Sem contorno azul do navegador */
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    /* Destaque na borda quando o campo está em foco */
+    .consultor textarea:focus {
+      border-color: var(--primary);
+    }
+
+    /* Mensagem de erro do consultor */
+    .consultor .erro {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--destructive);
+    }
+
+    /* Resumo gerado pelo consultor */
+    .consultor .resumo {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* Lista de produtos recomendados */
+    .consultor .recomendados {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    /* Um item recomendado */
+    .recomendado {
+      display: flex;
+      gap: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.5);
+      padding: 0.75rem;
+    }
+
+    /* Miniatura do produto (imagem ilustrativa) */
+    .recomendado .mini {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* Nome do produto recomendado */
+    .recomendado .nome {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Motivo da recomendação */
+    .recomendado .motivo {
+      font-size: 0.78rem;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+
+    /* Linha de baixo: preço + botão adicionar */
+    .recomendado .linha {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* VITRINE DE PRODUTOS                                             */
+    /* -------------------------------------------------------------- */
+    .vitrine {
+      padding-bottom: 5rem;
+    }
+
+    /* Cabeçalho da vitrine (título + legenda) */
+    .vitrine-topo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    /* Título "Produtos em destaque" */
+    .vitrine-topo h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    /* Legenda abaixo do título */
+    .vitrine-topo p {
+      margin-top: 0.25rem;
+      font-size: 0.9rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Grade de cartões: 3 colunas em telas grandes */
+    .grade-produtos {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* Cartão de um produto */
+    .produto {
+      /* Fundo branco, borda, sombra */
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.5);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      /* Sobe suavemente ao passar o mouse */
+      transition: transform 0.3s ease;
+    }
+
+    /* Efeito de elevação ao passar o mouse */
+    .produto:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Área da imagem do produto (quadrada) */
+    .produto .imagem {
+      /* Proporção quadrada */
+      aspect-ratio: 1 / 1;
+      /* Centraliza o emoji ilustrativo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Tamanho grande do emoji */
+      font-size: 4rem;
+      /* Gradiente de fundo por categoria */
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+    }
+
+    /* Conteúdo abaixo da imagem */
+    .produto .info {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    /* Selo da categoria (tag) */
+    .produto .tag {
+      align-self: flex-start;
+      background: var(--secondary);
+      color: var(--secondary-foreground);
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* Nome do produto */
+    .produto h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Preço em vermelho */
+    .produto .preco {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Botão "Adicionar ao carrinho" ocupa a largura toda */
+    .produto .btn-adicionar {
+      width: 100%;
+      background: var(--secondary);
+      color: var(--secondary-foreground);
+      border: none;
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.6rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: filter 0.2s ease;
+    }
+
+    /* Efeito ao passar o mouse */
+    .produto .btn-adicionar:hover {
+      filter: brightness(0.95);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* PÁGINA BANHO & TOSA                                             */
+    /* -------------------------------------------------------------- */
+    .banho-hero {
+      padding: 3rem 0 2.5rem;
+    }
+
+    /* Etiqueta "SERVIÇO PREMIUM" */
+    .banho-hero .etiqueta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* Título da página de banho */
+    .banho-hero h1 {
+      margin-top: 0.75rem;
+      max-width: 42rem;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    /* Parte com gradiente do título */
+    .banho-hero h1 .gradiente {
+      background-image: var(--gradient-sun);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Texto de apoio */
+    .banho-hero p {
+      margin-top: 0.75rem;
+      max-width: 36rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Grade: cards de adicionais + resumo lateral */
+    .banho-grade {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      padding-bottom: 5rem;
+    }
+
+    /* Grade de cards dos adicionais */
+    .grade-adicionais {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    /* Card de um adicional (clicável) */
+    .adicional {
+      text-align: left;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--card-foreground);
+      border-radius: calc(var(--radius) * 1.5);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+
+    /* Efeito de elevação ao passar o mouse */
+    .adicional:hover {
+      transform: translateY(-4px);
+      border-color: oklch(0.56 0.22 27 / 0.4);
+    }
+
+    /* Estado selecionado: fundo com gradiente vermelho→amarelo */
+    .adicional.selecionado {
+      background-image: var(--gradient-sun);
+      border-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    /* Linha de topo: nome + preço */
+    .adicional .linha-topo {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Nome do adicional */
+    .adicional .nome {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* Preço do adicional */
+    .adicional .preco {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* Descrição do adicional */
+    .adicional .desc {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    /* Rótulo inferior "Adicionar" / "Selecionado" */
+    .adicional .acao {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Painel lateral do resumo do banho */
+    .painel-banho {
+      /* Fixa o painel ao rolar (telas grandes) */
+      position: sticky;
+      top: 5.5rem;
+      align-self: start;
+    }
+
+    /* Cartão interno do painel */
+    .painel-banho .cartao {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 2);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Lista de linhas do resumo (item + preço) */
+    .resumo-banho {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Cada linha: nome à esquerda, valor à direita */
+    .resumo-banho .linha {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Nome em cinza */
+    .resumo-banho .linha .nome {
+      color: var(--muted-foreground);
+    }
+
+    /* Valor em negrito */
+    .resumo-banho .linha .valor {
+      font-weight: 700;
+    }
+
+    /* Linha do total, com borda superior */
+    .resumo-banho .linha.total {
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    /* Total em vermelho e maior */
+    .resumo-banho .linha.total .valor {
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Barra de progresso do banho */
+    .progresso {
+      margin-top: 1.25rem;
+    }
+
+    /* Trilha da barra (fundo cinza claro) */
+    .progresso .trilha {
+      height: 0.6rem;
+      background: var(--secondary);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    /* Preenchimento da barra (vermelho) */
+    .progresso .preenchido {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 999px;
+      /* Cresce suavemente ao atualizar */
+      transition: width 0.15s linear;
+    }
+
+    /* Texto "Dando banho... X%" */
+    .progresso .texto {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Mensagem de banho concluído */
+    .mensagem-banho {
+      margin-top: 1.25rem;
+      background: var(--secondary);
+      color: var(--secondary-foreground);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CENA DO CACHORRO (esperando o banho / tomando banho)            */
+    /* -------------------------------------------------------------- */
+    /* Moldura da cena com céu amarelado */
+    .cena {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 2);
+      background-image: var(--gradient-sky);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Sol no canto superior direito */
+    .cena .sol {
+      position: absolute;
+      right: 2rem;
+      top: 1.5rem;
+      width: 4rem;
+      height: 4rem;
+      border-radius: 999px;
+      background-image: var(--gradient-sun);
+      opacity: 0.8;
+    }
+
+    /* Palco da animação (o cachorro fica no fundo) */
+    .cena .palco {
+      position: relative;
+      margin: 0 auto;
+      height: 16rem;
+      max-width: 36rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    /* Chuveiro que aparece durante o banho */
+    .cena .chuveiro {
+      position: absolute;
+      left: 50%;
+      top: 1rem;
+      transform: translateX(-50%);
+      display: none;
+    }
+
+    /* Mostra o chuveiro quando está dando banho */
+    .cena.banho .chuveiro {
+      display: block;
+    }
+
+    /* Corpo do chuveiro (barra horizontal) */
+    .cena .chuveiro .canopla {
+      display: block;
+      margin: 0 auto;
+      width: 6rem;
+      height: 0.75rem;
+      border-radius: 999px;
+      background: oklch(0.3 0.1 45 / 0.7);
+    }
+
+    /* Linha de gotas abaixo da canopla */
+    .cena .chuveiro .gotas {
+      margin-top: 0.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    /* Cada gota caindo */
+    .cena .chuveiro .gota {
+      width: 0.25rem;
+      height: 1rem;
+      border-radius: 999px;
+      background: var(--accent);
+      /* Animação de queda */
+      animation: queda-agua 1.1s linear infinite;
+    }
+
+    /* Bolhas de sabão subindo (aparecem no banho) */
+    .cena .bolha {
+      position: absolute;
+      bottom: 2rem;
+      border-radius: 999px;
+      border: 1px solid oklch(1 0 0 / 0.7);
+      background: oklch(1 0 0 / 0.5);
+      display: none;
+      /* Animação de subida */
+      animation: sobe-bolha 3.5s linear infinite;
+    }
+
+    /* Mostra as bolhas quando está dando banho */
+    .cena.banho .bolha {
+      display: block;
+    }
+
+    /* SVG do cachorro */
+    .cena .cachorro {
+      position: relative;
+      z-index: 10;
+      height: 14rem;
+    }
+
+    /* Durante o banho, o cachorro balança */
+    .cena.banho .cachorro {
+      animation: espreguicar 1.6s ease-in-out infinite;
+    }
+
+    /* Banheira que aparece durante o banho */
+    .cena .banheira {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20rem;
+      height: 6rem;
+      border: 4px solid var(--card);
+      border-radius: 1rem 1rem 3rem 3rem;
+      background: oklch(0.84 0.18 88 / 0.7);
+      display: none;
+    }
+
+    /* Mostra a banheira durante o banho */
+    .cena.banho .banheira {
+      display: block;
+    }
+
+    /* Faixa de espuma na borda da banheira */
+    .cena .banheira .espuma {
+      position: absolute;
+      left: 0.75rem;
+      right: 0.75rem;
+      top: 0.5rem;
+      height: 1rem;
+      border-radius: 999px;
+      background: oklch(1 0 0 / 0.7);
+      /* Vai e vem, como se fosse esfregando */
+      animation: esfregar 0.5s ease-in-out infinite alternate;
+    }
+
+    /* Base da cena (chão) */
+    .cena .chao {
+      margin-top: 1rem;
+      height: 1rem;
+      border-radius: 999px;
+      background: oklch(0.56 0.22 27 / 0.15);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* ANIMAÇÕES (keyframes)                                           */
+    /* -------------------------------------------------------------- */
+    /* Gota caindo do chuveiro */
+    @keyframes queda-agua {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(90px);
+        opacity: 0;
+      }
+    }
+
+    /* Bolha de sabão subindo */
+    @keyframes sobe-bolha {
+      0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translateY(-220px) scale(1.1);
+        opacity: 0;
+      }
+    }
+
+    /* Cachorro balançando no banho */
+    @keyframes espreguicar {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateY(-6px) rotate(2deg);
+      }
+    }
+
+    /* Espuma esfregando na banheira */
+    @keyframes esfregar {
+      from {
+        transform: translateX(-8px) rotate(-8deg);
+      }
+
+      to {
+        transform: translateX(8px) rotate(8deg);
+      }
+    }
+
+    /* Rabo balançando */
+    @keyframes rabo {
+
+      from {
+        transform: rotate(-18deg);
+      }
+
+      to {
+        transform: rotate(22deg);
+      }
+    }
+
+    /* Orelha mexendo */
+    @keyframes orelha {
+
+      from {
+        transform: rotate(-10deg);
+      }
+
+      to {
+        transform: rotate(18deg);
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CARRINHO LATERAL (painel deslizante)                            */
+    /* -------------------------------------------------------------- */
+    /* Fundo escurecido atrás do painel */
+    .carrinho-fundo {
+      position: fixed;
+      inset: 0;
+      background: oklch(0 0 0 / 0.45);
+      z-index: 60;
+      /* Escondido até abrir */
+      display: none;
+    }
+
+    /* Mostra o fundo quando aberto */
+    .carrinho-fundo.aberto {
+      display: block;
+    }
+
+    /* O painel lateral branco */
+    .carrinho-painel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(100%, 26rem);
+      background: var(--card);
+      z-index: 70;
+      /* Painel em coluna: título, itens, rodapé */
+      display: flex;
+      flex-direction: column;
+      /* Escondido fora da tela até abrir */
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Desliza o painel para dentro quando aberto */
+    .carrinho-painel.aberto {
+      transform: translateX(0);
+    }
+
+    /* Cabeçalho do painel */
+    .carrinho-cabecalho {
+      padding: 1.25rem 1.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Título "Seu carrinho" */
+    .carrinho-cabecalho h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    /* Legenda de ajuda */
+    .carrinho-cabecalho p {
+      margin-top: 0.25rem;
+      font-size: 0.82rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Lista de itens, com rolagem própria */
+    .carrinho-itens {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Mensagem de carrinho vazio */
+    .carrinho-vazio {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted-foreground);
+    }
+
+    /* Item do carrinho: miniatura + nome/preço + remover */
+    .item-carrinho {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: calc(var(--radius));
+      padding: 0.75rem;
+    }
+
+    /* Miniatura do item */
+    .item-carrinho .mini {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      flex-shrink: 0;
+    }
+
+    /* Nome e preço do item */
+    .item-carrinho .dados {
+      flex: 1;
+    }
+
+    /* Nome do produto */
+    .item-carrinho .nome {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* Preço do produto */
+    .item-carrinho .preco {
+      font-size: 0.85rem;
+      color: var(--primary);
+    }
+
+    /* Botão de remover (x) */
+    .item-carrinho .remover {
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--muted-foreground);
+      padding: 0.25rem;
+      transition: color 0.2s ease;
+    }
+
+    /* Vermelho ao passar o mouse */
+    .item-carrinho .remover:hover {
+      color: var(--destructive);
+    }
+
+    /* Rodapé do painel com total e botão */
+    .carrinho-rodape {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem 1.5rem;
+    }
+
+    /* Linha do total dentro do rodapé */
+    .carrinho-rodape .total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Valor total */
+    .carrinho-rodape .total .valor {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Observação abaixo do botão */
+    .carrinho-rodape .nota {
+      margin-top: 0.75rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted-foreground);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* ÍCONES FLUTUANTES (cachorro tomando banho + WhatsApp)           */
+    /* -------------------------------------------------------------- */
+    /* Ícone flutuante do cachorro (leva para a página de banho) */
+    .flutuante-cachorro {
+      position: fixed;
+      bottom: 7rem;
+      right: 1.5rem;
+      z-index: 50;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    /* Cresce ao passar o mouse */
+    .flutuante-cachorro:hover {
+      transform: scale(1.1);
+    }
+
+    /* Ícone flutuante do WhatsApp (abre conversa) */
+    .flutuante-whatsapp {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 50;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: oklch(1 0 0 / 0.9);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted-foreground);
+      backdrop-filter: blur(4px);
+      transition: color 0.2s ease;
+    }
+
+    /* Fica verde ao passar o mouse */
+    .flutuante-whatsapp:hover {
+      color: var(--whatsapp);
+    }
+
+    /* Esconde o cachorro flutuante na página inicial */
+    .flutuante-cachorro.oculto {
+      display: none;
+    }
+
+    /* Animação de balanço do cachorro flutuante */
+    @keyframes icone-flutua {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* Aplica o balanço ao SVG interno */
+    .flutuante-cachorro svg {
+      width: 3rem;
+      height: 3rem;
+      animation: icone-flutua 1.6s ease-in-out infinite;
+    }
+
+    /* -------------------------------------------------------------- */
+    /* CARREGAMENTO DE PÁGINA (cachorrinho correndo)                   */
+    /* -------------------------------------------------------------- */
+    /* Tela cheia translúcida durante a troca de páginas */
+    .carregando {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: oklch(0.985 0.02 90 / 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Mostra o carregamento quando ativo */
+    .carregando.ativo {
+      display: flex;
+    }
+
+    /* Cartão branco com o cachorrinho */
+    .carregando .cartao {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 2);
+      padding: 2rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* SVG do cachorrinho, pulando enquanto corre */
+    .carregando svg {
+      width: 4rem;
+      height: 3.75rem;
+      animation: pulinho 0.6s ease-in-out infinite;
+    }
+
+    /* Movimento de pulinho */
+    @keyframes pulinho {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    /* Orelha do cachorrinho tremendo */
+    @keyframes orelhinha {
+
+      from {
+        transform: rotate(-10deg);
+      }
+
+      to {
+        transform: rotate(18deg);
+      }
+    }
+
+    /* Rabo do cachorrinho balançando */
+    @keyframes rabinho {
+
+      from {
+        transform: rotate(-18deg);
+      }
+
+      to {
+        transform: rotate(22deg);
+      }
+    }
+
+    /* Texto "Carregando..." abaixo */
+    .carregando p {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* RODAPÉ                                                          */
+    /* -------------------------------------------------------------- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted-foreground);
+    }
+
+    /* -------------------------------------------------------------- */
+    /* RESPONSIVO — adapta o layout a telas menores                    */
+    /* -------------------------------------------------------------- */
+    /* Telas médias (até 900px) */
+    @media (max-width: 900px) {
+      /* Passos ficam em 1 coluna */
+      .passos {
+        grid-template-columns: 1fr;
+      }
+
+      /* Vitrine em 2 colunas */
+      .grade-produtos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Banho fica em 1 coluna (cards acima, painel abaixo) */
+      .banho-grade {
+        grid-template-columns: 1fr;
+      }
+
+      /* Painel deixa de ser fixo */
+      .painel-banho {
+        position: static;
+      }
+    }
+
+    /* Telas pequenas (celulares, até 640px) */
+    @media (max-width: 640px) {
+
+      /* Tudo em 1 coluna */
+      .grade-produtos,
+      .grade-adicionais,
+      .consultor .recomendados {
+        grid-template-columns: 1fr;
+      }
+
+      /* Padding menor no container */
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      /* Banheira mais estreita */
+      .cena .banheira {
+        width: 14rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ================================================================== -->
+  <!-- CARREGAMENTO — cachorrinho animado nas trocas de página            -->
+  <!-- ================================================================== -->
+  <div class="carregando" id="carregando" aria-hidden="true">
+    <!-- Cartão branco com o SVG do cachorrinho -->
+    <div class="cartao">
+      <!-- Cachorrinho desenhado em SVG (pulando + orelha e rabo animados) -->
+      <svg viewBox="0 0 80 60" aria-hidden="true">
+        <!-- Grupo geral que pula (animação pulinho) -->
+        <g>
+          <!-- Corpo do cachorrinho (caramelo) -->
+          <rect x="28" y="24" width="36" height="20" rx="10" fill="oklch(0.78 0.11 65)" />
+          <!-- Cabeça -->
+          <circle cx="22" cy="24" r="12" fill="oklch(0.8 0.11 65)" />
+          <!-- Focinho claro -->
+          <ellipse cx="12" cy="28" rx="7" ry="5" fill="oklch(0.92 0.05 80)" />
+          <!-- Nariz -->
+          <circle cx="6" cy="26" r="2.5" fill="oklch(0.3 0.03 50)" />
+          <!-- Olho -->
+          <circle cx="28" cy="18" r="2" fill="oklch(0.28 0.03 50)" />
+          <!-- Orelha tremendo (origem no ponto da orelha) -->
+          <path d="M18 12 q-5 2 -3 10 q4 1 7 -4 z" fill="oklch(0.62 0.1 55)" style="transform-origin: 18px 12px; animation: orelhinha 0.4s ease-in-out infinite alternate;" />
+          <!-- Rabo balançando (origem no ponto do rabo) -->
+          <path d="M58 26 q10 -4 14 -14" fill="none" stroke="oklch(0.7 0.11 60)" stroke-width="5" stroke-linecap="round" style="transform-origin: 58px 26px; animation: rabinho 0.3s ease-in-out infinite alternate;" />
+        </g>
+      </svg>
+    </div>
+    <!-- Texto de status -->
+    <p>Carregando...</p>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- CABEÇALHO — logo + botão do carrinho                               -->
+  <!-- ================================================================== -->
+  <header class="topo">
+    <div class="topo-conteudo">
+      <!-- Logo; volta para a página da loja ao clicar -->
+      <a class="logo" onclick="trocarPagina('loja')">Petz<span>Amigo</span></a>
+      <!-- Botão do carrinho com o contador de itens -->
+      <button class="btn-carrinho" onclick="abrirCarrinho()">
+        <!-- Ícone do carrinho (SVG) -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Corpo do carrinho -->
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+        <!-- Rótulo do botão -->
+        <span>Carrinho</span>
+        <!-- Contador de itens (esconde quando vazio) -->
+        <span class="badge oculta" id="badge-carrinho">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================================================================== -->
+  <!-- PÁGINA 1 — LOJA (vitrine + consultor + produtos)                   -->
+  <!-- ================================================================== -->
+  <section class="pagina ativa" id="pagina-loja">
+    <!-- HERO de apresentação -->
+    <div class="container hero">
+      <!-- Etiqueta superior -->
+      <p class="hero-etiqueta">Bem-vindo à PetzAmigo</p>
+      <!-- Título grande com parte em gradiente -->
+      <h1>Cuidado, conforto e carinho para <span class="gradiente">quem te faz feliz</span></h1>
+      <!-- Texto de apoio -->
+      <p>Monte seu carrinho na vitrine e finalize pelo WhatsApp — o pedido chega pronto para a nossa equipe.</p>
+      <!-- Botões de ação -->
+      <div class="hero-botoes">
+        <!-- Vai para a página de banho e tosa -->
+        <button class="btn btn-primario btn-grande" onclick="trocarPagina('banho')">Banho &amp; Tosa</button>
+        <!-- Rola até a vitrine de produtos -->
+        <button class="btn btn-outline btn-grande" onclick="rolarParaProdutos()">Ver produtos</button>
+      </div>
+    </div>
+
+    <!-- 3 passos explicando o fluxo de compra -->
+    <div class="container passos">
+      <!-- Passo 1 -->
+      <div class="passo">
+        <span class="etiqueta">Passo 1</span>
+        <h3>Monte seu carrinho</h3>
+        <p>Escolha os produtos na vitrine e adicione ao carrinho.</p>
+      </div>
+      <!-- Passo 2 -->
+      <div class="passo">
+        <span class="etiqueta">Passo 2</span>
+        <h3>Finalize no WhatsApp</h3>
+        <p>O pedido chega pronto para nós, com itens e valores.</p>
+      </div>
+      <!-- Passo 3 -->
+      <div class="passo">
+        <span class="etiqueta">Passo 3</span>
+        <h3>Envie seu endereço</h3>
+        <p>É só responder a mensagem com o endereço de entrega.</p>
+      </div>
+    </div>
+
+    <!-- CONSULTOR: descreva o cão e receba recomendações -->
+    <div class="container">
+      <div class="consultor">
+        <!-- Título com ícone de brilho -->
+        <div class="topico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10.4 10.4l1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10.4-10.4l1.4-1.4" />
+            <circle cx="12" cy="12" r="4" />
+          </svg>
+          <span>Consultor PetzAmigo</span>
+        </div>
+        <h2>Conte sobre o seu cão</h2>
+        <p class="dica">Idade, porte, hábitos ou necessidades — indicamos os produtos certos da vitrine.</p>
+        <!-- Campo onde o cliente descreve o cão -->
+        <textarea id="consultor-texto" maxlength="800" placeholder="Ex.: filhote de 4 meses, muito agitado, gosta de morder tudo"></textarea>
+        <!-- Botão que gera as recomendações -->
+        <button class="btn btn-primario" style="margin-top: 1rem;" onclick="recomendar()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10.4 10.4l1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10.4-10.4l1.4-1.4" />
+            <circle cx="12" cy="12" r="4" />
+          </svg>
+          Recomendar produtos
+        </button>
+        <!-- Mensagem de erro (aparece quando algo falha) -->
+        <p class="erro" id="consultor-erro" style="display:none;"></p>
+        <!-- Resumo em texto gerado -->
+        <p class="resumo" id="consultor-resumo" style="display:none;"></p>
+        <!-- Lista de produtos recomendados -->
+        <div class="recomendados" id="consultor-itens"></div>
+      </div>
+    </div>
+
+    <!-- VITRINE de produtos -->
+    <div class="container vitrine" id="produtos">
+      <div class="vitrine-topo">
+        <div>
+          <h2>Produtos em destaque</h2>
+          <p>Adicione ao carrinho e finalize pelo WhatsApp</p>
+        </div>
+      </div>
+      <!-- Os cartões são criados pelo JavaScript -->
+      <div class="grade-produtos" id="grade-produtos"></div>
+    </div>
+  </section>
+
+  <!-- ================================================================== -->
+  <!-- PÁGINA 2 — BANHO & TOSA (adicionais + cena + resumo)               -->
+  <!-- ================================================================== -->
+  <section class="pagina" id="pagina-banho">
+    <!-- HERO da página de banho -->
+    <div class="container banho-hero">
+      <p class="etiqueta">Serviço premium</p>
+      <h1>Banho &amp; Tosa com <span class="gradiente">adicionais sob medida</span></h1>
+      <p>Selecione os cuidados extras e acompanhe o banho em tempo real.</p>
+    </div>
+
+    <div class="container banho-grade">
+      <!-- Coluna esquerda: cards dos adicionais -->
+      <div class="grade-adicionais" id="grade-adicionais"></div>
+
+      <!-- Coluna direita: painel com cena e resumo -->
+      <aside class="painel-banho">
+        <div class="cartao">
+          <!-- CENA animada do cachorro -->
+          <div class="cena" id="cena">
+            <!-- Sol no canto -->
+            <div class="sol"></div>
+            <!-- Chuveiro com gotas (só no banho) -->
+            <div class="chuveiro">
+              <span class="canopla"></span>
+              <div class="gotas">
+                <span class="gota" style="animation-delay: 0s"></span>
+                <span class="gota" style="animation-delay: 0.14s"></span>
+                <span class="gota" style="animation-delay: 0.28s"></span>
+                <span class="gota" style="animation-delay: 0.42s"></span>
+                <span class="gota" style="animation-delay: 0.56s"></span>
+                <span class="gota" style="animation-delay: 0.7s"></span>
+              </div>
+            </div>
+            <!-- Palco com bolhas, cachorro e banheira -->
+            <div class="palco">
+              <!-- Bolhas geradas pelo JavaScript -->
+              <div id="bolhas"></div>
+              <!-- Cachorro desenhado em SVG -->
+              <svg class="cachorro" viewBox="0 0 220 150" role="img" aria-label="Cachorro">
+                <!-- Patas (4 linhas grossas) -->
+                <g stroke="oklch(0.62 0.09 60)" stroke-width="9" stroke-linecap="round">
+                  <line x1="80" y1="95" x2="80" y2="128" />
+                  <line x1="95" y1="95" x2="95" y2="128" />
+                  <line x1="140" y1="95" x2="140" y2="128" />
+                  <line x1="155" y1="95" x2="155" y2="128" />
+                </g>
+                <!-- Rabo balançando -->
+                <path d="M162 78 q22 -8 26 -28" fill="none" stroke="oklch(0.7 0.11 60)" stroke-width="10" stroke-linecap="round" style="transform-origin: 162px 78px; animation: rabo 0.3s ease-in-out infinite alternate;" />
+                <!-- Corpo arredondado -->
+                <rect x="72" y="60" width="96" height="46" rx="23" fill="oklch(0.78 0.11 65)" />
+                <!-- Cabeça -->
+                <circle cx="62" cy="60" r="28" fill="oklch(0.8 0.11 65)" />
+                <!-- Orelha mexendo -->
+                <path d="M50 38 q-16 6 -10 30 q12 4 18 -12z" fill="oklch(0.62 0.1 55)" style="transform-origin: 50px 38px; animation: orelha 0.4s ease-in-out infinite alternate;" />
+                <!-- Focinho claro -->
+                <ellipse cx="38" cy="68" rx="16" ry="12" fill="oklch(0.92 0.05 80)" />
+                <!-- Nariz -->
+                <circle cx="26" cy="65" r="5" fill="oklch(0.3 0.03 50)" />
+                <!-- Olho -->
+                <circle cx="56" cy="52" r="4" fill="oklch(0.28 0.03 50)" />
+                <!-- Língua feliz -->
+                <path d="M34 76 q6 12 14 6" fill="none" stroke="oklch(0.7 0.15 20)" stroke-width="5" stroke-linecap="round" />
+                <!-- Espuma (aparece só no banho, via JS) -->
+                <g id="espuma" fill="oklch(0.99 0.005 250)" opacity="0.95" style="display:none">
+                  <circle cx="100" cy="52" r="16" />
+                  <circle cx="122" cy="46" r="14" />
+                  <circle cx="142" cy="54" r="12" />
+                  <circle cx="70" cy="40" r="12" />
+                </g>
+              </svg>
+              <!-- Banheira (só no banho) -->
+              <div class="banheira">
+                <div class="espuma"></div>
+              </div>
+            </div>
+            <!-- Chão da cena -->
+            <div class="chao"></div>
+          </div>
+
+          <!-- RESUMO: itens escolhidos + total -->
+          <div class="resumo-banho" id="resumo-banho"></div>
+
+          <!-- Barra de progresso (só durante o banho) -->
+          <div class="progresso" id="progresso" style="display:none">
+            <div class="trilha">
+              <div class="preenchido" id="progresso-preenchido"></div>
+            </div>
+            <p class="texto" id="progresso-texto">Dando banho... 0%</p>
+          </div>
+
+          <!-- Mensagem de banho concluído -->
+          <p class="mensagem-banho" id="mensagem-banho" style="display:none"></p>
+
+          <!-- Botão que inicia a animação do banho -->
+          <button class="btn btn-primario btn-grande" style="width:100%; margin-top: 1.5rem;" id="btn-dar-banho" onclick="darBanho()">
+            Dar banho no cachorro
+          </button>
+
+          <!-- Botão de reserva pelo WhatsApp -->
+          <a class="btn btn-whatsapp" style="margin-top: 0.75rem;" id="link-reserva" href="#" target="_blank" rel="noopener noreferrer">
+            <!-- Ícone do WhatsApp -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+            </svg>
+            Reservar pelo WhatsApp
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================================================================== -->
+  <!-- RODAPÉ                                                             -->
+  <!-- ================================================================== -->
+  <footer>
+    © <span id="ano"></span> PetzAmigo · Vitrine de preços · Pedidos pelo WhatsApp
+  </footer>
+
+  <!-- ================================================================== -->
+  <!-- ÍCONES FLUTUANTES                                                  -->
+  <!-- ================================================================== -->
+  <!-- Cachorro tomando banho: leva para a página de banho -->
+  <a class="flutuante-cachorro oculto" id="flutuante-cachorro" title="Banho &amp; Tosa" onclick="trocarPagina('banho')">
+    <!-- SVG do cachorrinho na banheira -->
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <!-- Banheira -->
+      <path d="M8 44 h48 v6 a8 8 0 0 1 -8 8 h-32 a8 8 0 0 1 -8 -8 z" fill="oklch(0.84 0.18 88)" opacity="0.85" />
+      <!-- Superfície da água -->
+      <rect x="10" y="42" width="44" height="4" rx="2" fill="oklch(0.28 0.09 40)" opacity="0.35" />
+      <!-- Cachorro balançando -->
+      <g style="animation: icone-flutua 1.6s ease-in-out infinite">
+        <circle cx="32" cy="30" r="12" fill="oklch(0.78 0.11 65)" />
+        <ellipse cx="24" cy="34" rx="6" ry="4" fill="oklch(0.92 0.05 80)" />
+        <circle cx="20" cy="32" r="2" fill="oklch(0.3 0.03 50)" />
+        <circle cx="34" cy="24" r="2" fill="oklch(0.28 0.03 50)" />
+        <path d="M26 22 q-4 2 -2 8 q4 1 6 -4 z" fill="oklch(0.62 0.1 55)" />
+      </g>
+      <!-- Chuveiro -->
+      <path d="M44 6 h8 v8 h-4 v4" fill="none" stroke="oklch(0.5 0.05 45)" stroke-width="3" stroke-linecap="round" />
+      <!-- Gotas -->
+      <circle cx="46" cy="22" r="1.5" fill="oklch(0.28 0.09 40)" opacity="0.8" />
+      <circle cx="50" cy="26" r="1.5" fill="oklch(0.28 0.09 40)" opacity="0.8" />
+      <!-- Bolhas de sabão -->
+      <circle cx="18" cy="50" r="2" fill="oklch(0.25 0.06 35)" opacity="0.6" />
+      <circle cx="48" cy="52" r="1.5" fill="oklch(0.25 0.06 35)" opacity="0.6" />
+    </svg>
+  </a>
+
+  <!-- WhatsApp: abre conversa com a loja -->
+  <a class="flutuante-whatsapp" id="flutuante-whatsapp" title="Falar no WhatsApp" href="#" target="_blank" rel="noopener noreferrer">
+    <!-- Ícone do WhatsApp -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+    </svg>
+  </a>
+
+  <!-- ================================================================== -->
+  <!-- CARRINHO LATERAL                                                   -->
+  <!-- ================================================================== -->
+  <!-- Fundo escurecido; fecha ao clicar -->
+  <div class="carrinho-fundo" id="carrinho-fundo" onclick="fecharCarrinho()"></div>
+  <!-- Painel deslizante -->
+  <aside class="carrinho-painel" id="carrinho-painel">
+    <!-- Cabeçalho -->
+    <div class="carrinho-cabecalho">
+      <h2>Seu carrinho</h2>
+      <p>Revise os itens e finalize o pedido pelo WhatsApp.</p>
+    </div>
+    <!-- Lista de itens -->
+    <div class="carrinho-itens" id="carrinho-itens"></div>
+    <!-- Rodapé com total e botão -->
+    <div class="carrinho-rodape" id="carrinho-rodape" style="display:none">
+      <div class="total">
+        <span style="color: var(--muted-foreground); font-size: 0.9rem;">Total</span>
+        <span class="valor" id="carrinho-total"></span>
+      </div>
+      <!-- Botão verde: envia o pedido pronto pelo WhatsApp -->
+      <a class="btn btn-whatsapp" style="margin-top: 1rem;" id="link-finalizar" href="#" target="_blank" rel="noopener noreferrer">
+        <!-- Ícone do WhatsApp -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+        </svg>
+        Finalizar pelo WhatsApp
+      </a>
+      <p class="nota">Depois de enviar, é só completar a mensagem com seu endereço de entrega.</p>
+    </div>
+  </aside>
+
+  <!-- ================================================================== -->
+  <!-- JAVASCRIPT — TODA A LÓGICA DO SITE                                 -->
+  <!-- ================================================================== -->
+  <script>
+    // ================================================================
+    // CONFIGURAÇÃO DA LOJA
+    // ================================================================
+    // ATENÇÃO: troque pelo número real da PetzAmigo.
+    // Formato internacional, só dígitos: 55 (Brasil) + DDD + número.
+    const WHATSAPP_NUMERO = "5511999999999";
+
+    // Monta o link do WhatsApp já com a mensagem pronta.
+    function whatsappLink(mensagem) {
+      // codifica a mensagem para caber em um endereço web
+      return "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + encodeURIComponent(mensagem);
+    }
+
+    // Formata valores como reais (R$).
+    function brl(valor) {
+      return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    // ================================================================
+    // DADOS — produtos da vitrine
+    // ================================================================
+    // Cada produto: id, nome, preco, emoji (ilustração), tag (etiqueta),
+    // chave (usada pelo consultor para casar com palavras-chave).
+    const PRODUTOS = [
+      { id: 1, nome: "Ração Premium 10kg", preco: 189.9, emoji: "🍖", tag: "Mais vendido", chaves: ["adulto", "grande", "comida", "racao", "ração"] },
+      { id: 2, nome: "Ração Filhote 3kg", preco: 89.9, emoji: "🍖", tag: "Filhotes", chaves: ["filhote", "bebe", "bebê", "cachorro novo"] },
+      { id: 3, nome: "Petiscos Naturais", preco: 34.9, emoji: "🦴", tag: "Snack", chaves: ["petisco", "snack", "premio", "prêmio", "guloseima"] },
+      { id: 4, nome: "Kit Brinquedos Mordedor", preco: 79.9, emoji: "🧸", tag: "Novo", chaves: ["brinquedo", "morde", "morder", "mordedor", "mastigar", "agitado", "energia"] },
+      { id: 5, nome: "Bolinha Saltitante", preco: 24.9, emoji: "⚽", tag: "Diversão", chaves: ["bolinha", "brincar", "correr", "brinquedo", "diversao", "diversão"] },
+      { id: 6, nome: "Corda Dental", preco: 39.9, emoji: "🪢", tag: "Saúde bucal", chaves: ["dente", "dentes", "dental", "higien", "escovar"] },
+      { id: 7, nome: "Caminha Conforto Plus", preco: 249.9, emoji: "🛏️", tag: "Frete grátis", chaves: ["cama", "dormir", "sono", "descanso", "conforto"] },
+      { id: 8, nome: "Almofada Pelúcia", preco: 129.9, emoji: "🧸", tag: "Aconchego", chaves: ["almofada", "aconchego", "cama", "pelucia", "pelúcia"] },
+      { id: 9, nome: "Casinha Portátil", preco: 329.9, emoji: "🏠", tag: "Premium", chaves: ["casinha", "casinha portátil", "abrigar", "casinha portatil"] },
+      { id: 10, nome: "Coleira Refletiva", preco: 59.9, emoji: "🦮", tag: "Passeio", chaves: ["coleira", "passear", "passeio", "passear", "guia", "correr"] },
+      { id: 11, nome: "Comedouro Duplo Inox", preco: 69.9, emoji: "🥣", tag: "Prático", chaves: ["comedouro", "bebedouro", "pot", "pote", "comer", "agua", "água"] },
+      { id: 12, nome: "Shampoo Neutro 500ml", preco: 44.9, emoji: "🧼", tag: "Banho", chaves: ["shampoo", "banho", "cheiro", "banho", "higien"] },
+    ];
+
+    // Serviço base do banho (sempre incluído na reserva).
+    const BANHO_BASE = { nome: "Banho completo", preco: 69.9 };
+
+    // Adicionais do banho (cards clicáveis da página /banho).
+    const ADICIONAIS = [
+      { id: "tosa", nome: "Tosa higiênica", desc: "Acabamento fino nas áreas sensíveis", preco: 39.9 },
+      { id: "hidra", nome: "Hidratação de pelos", desc: "Máscara nutritiva com queratina", preco: 49.9 },
+      { id: "unhas", nome: "Corte de unhas", desc: "Corte e lixamento delicado", preco: 19.9 },
+      { id: "spa", nome: "Spa de patas", desc: "Esfoliação e bálsamo hidratante", preco: 29.9 },
+      { id: "dentes", nome: "Escovação dos dentes", desc: "Higiene bucal com gel enzimático", preco: 24.9 },
+      { id: "perfume", nome: "Perfume pet", desc: "Fragrância suave de longa duração", preco: 14.9 },
+      { id: "ozonio", nome: "Ozonioterapia", desc: "Alívio de coceiras e dermatites", preco: 89.9 },
+      { id: "taxi", nome: "Táxi dog", desc: "Leva e traz com transporte climatizado", preco: 34.9 },
+    ];
+
+    // ================================================================
+    // ESTADO DA APLICAÇÃO
+    // ================================================================
+    // Lista de ids dos produtos no carrinho (pode repetir).
+    let carrinho = [];
+    // Lista de ids dos adicionais selecionados.
+    let extras = [];
+    // Página atualmente visível ('loja' ou 'banho').
+    let paginaAtual = "loja";
+    // Controla se o banho está rodando (evita cliques duplos).
+    let banhoRodando = false;
+
+    // ================================================================
+    // VITRINE — desenha os cartões de produto
+    // ================================================================
+    function renderizarProdutos() {
+      // Encontra a grade onde os cartões serão inseridos.
+      const grade = document.getElementById("grade-produtos");
+      // Começa a lista vazia.
+      grade.innerHTML = "";
+      // Percorre cada produto do catálogo.
+      PRODUTOS.forEach((p) => {
+        // Cria um cartão e preenche nome, emoji, tag, preço e botão.
+        const cartao = document.createElement("div");
+        cartao.className = "produto";
+        // Conteúdo interno do cartão.
+        cartao.innerHTML =
+          '<div class="imagem">' + p.emoji + "</div>" +
+          '<div class="info">' +
+          '<span class="tag">' + p.tag + "</span>" +
+          "<h3>" + p.nome + "</h3>" +
+          '<p class="preco">' + brl(p.preco) + "</p>" +
+          '<button class="btn-adicionar" data-id="' + p.id + '">Adicionar ao carrinho</button>' +
+          "</div>";
+        // Ao clicar no botão, adiciona o produto e abre o carrinho.
+        cartao.querySelector(".btn-adicionar").addEventListener("click", function () {
+          adicionarAoCarrinho(p.id);
+        });
+        // Insere o cartão na grade.
+        grade.appendChild(cartao);
+      });
+    }
+
+    // ================================================================
+    // CARRINHO
+    // ================================================================
+    // Adiciona um produto pelo id e abre o painel.
+    function adicionarAoCarrinho(id) {
+      // Acrescenta o id (permite repetir o mesmo item).
+      carrinho.push(id);
+      // Redesenha o painel e o contador.
+      renderizarCarrinho();
+      // Mostra o carrinho ao cliente.
+      abrirCarrinho();
+    }
+
+    // Remove um item pela posição na lista.
+    function removerDoCarrinho(indice) {
+      // Tira 1 item na posição informada.
+      carrinho.splice(indice, 1);
+      // Atualiza a tela.
+      renderizarCarrinho();
+    }
+
+    // Devolve os objetos dos produtos presentes no carrinho.
+    function itensDoCarrinho() {
+      // Mapeia cada id para o produto correspondente.
+      return carrinho.map(function (id) {
+        return PRODUTOS.find(function (p) { return p.id === id; });
+      });
+    }
+
+    // Calcula o total dos produtos.
+    function totalCarrinho() {
+      // Soma o preço de cada item.
+      return itensDoCarrinho().reduce(function (soma, p) { return soma + p.preco; }, 0);
+    }
+
+    // Monta a mensagem pronta para o WhatsApp.
+    function mensagemPedido() {
+      // Lista numerada com nome e preço de cada item.
+      const linhas = itensDoCarrinho().map(function (p, i) {
+        return (i + 1) + ". " + p.nome + " — " + brl(p.preco);
+      });
+      // Junta saudação, itens, total e linha do endereço.
+      return [
+        "Olá! Quero finalizar meu pedido na PetzAmigo:",
+        "",
+        ...linhas,
+        "",
+        "Total: " + brl(totalCarrinho()),
+        "",
+        "Meu endereço de entrega é: ",
+      ].join("\n");
+    }
+
+    // Desenha o painel do carrinho por completo.
+    function renderizarCarrinho() {
+      // Pega os elementos da tela.
+      const contagem = document.getElementById("badge-carrinho");
+      const lista = document.getElementById("carrinho-itens");
+      const rodape = document.getElementById("carrinho-rodape");
+      const link = document.getElementById("link-finalizar");
+      // Atualiza o contador do cabeçalho.
+      contagem.textContent = carrinho.length;
+      // Esconde o contador quando o carrinho está vazio.
+      contagem.classList.toggle("oculta", carrinho.length === 0);
+      // Caso vazio: mostra mensagem e esconde o rodapé.
+      if (carrinho.length === 0) {
+        lista.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio. Adicione produtos da vitrine.</p>';
+        rodape.style.display = "none";
+        return;
+      }
+      // Caso com itens: limpa e redesenha cada linha.
+      lista.innerHTML = "";
+      itensDoCarrinho().forEach(function (p, indice) {
+        // Uma linha com miniatura, nome, preço e botão remover.
+        const item = document.createElement("div");
+        item.className = "item-carrinho";
+        item.innerHTML =
+          '<div class="mini">' + p.emoji + "</div>" +
+          '<div class="dados">' +
+          '<p class="nome">' + p.nome + "</p>" +
+          '<p class="preco">' + brl(p.preco) + "</p>" +
+          "</div>" +
+          '<button class="remover" aria-label="Remover ' + p.nome + '">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18m-2 0l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>' +
+          "</button>";
+        // Ao clicar em remover, apaga aquele item.
+        item.querySelector(".remover").addEventListener("click", function () {
+          removerDoCarrinho(indice);
+        });
+        // Insere na lista.
+        lista.appendChild(item);
+      });
+      // Mostra o rodapé com o total e o link do WhatsApp.
+      rodape.style.display = "block";
+      document.getElementById("carrinho-total").textContent = brl(totalCarrinho());
+      link.href = whatsappLink(mensagemPedido());
+    }
+
+    // Abre o painel do carrinho.
+    function abrirCarrinho() {
+      document.getElementById("carrinho-fundo").classList.add("aberto");
+      document.getElementById("carrinho-painel").classList.add("aberto");
+    }
+
+    // Fecha o painel do carrinho.
+    function fecharCarrinho() {
+      document.getElementById("carrinho-fundo").classList.remove("aberto");
+      document.getElementById("carrinho-painel").classList.remove("aberto");
+    }
+
+    // ================================================================
+    // CONSULTOR — recomenda produtos com base nas palavras-chave
+    // ================================================================
+    // No site real isso é feito por IA (Lovable AI Gateway).
+    // Nesta versão offline a recomendação é feita localmente,
+    // casando as palavras do texto com as chaves de cada produto.
+    function recomendar() {
+      // Pega os elementos da tela.
+      const campo = document.getElementById("consultor-texto");
+      const erro = document.getElementById("consultor-erro");
+      const resumo = document.getElementById("consultor-resumo");
+      const lista = document.getElementById("consultor-itens");
+      // Limpa resultados anteriores.
+      erro.style.display = "none";
+      resumo.style.display = "none";
+      lista.innerHTML = "";
+      // Texto digitado, em minúsculas, para comparar.
+      const texto = campo.value.toLowerCase();
+      // Texto muito curto: pede mais detalhes.
+      if (texto.trim().length < 3) {
+        erro.textContent = "Descreva um pouco mais sobre o seu cão (mínimo 3 letras).";
+        erro.style.display = "block";
+        return;
+      }
+      // Busca os produtos cujas chaves aparecem no texto.
+      const achados = [];
+      PRODUTOS.forEach(function (p) {
+        // Verifica se alguma chave do produto está no texto.
+        const casou = p.chaves.some(function (chave) { return texto.includes(chave); });
+        // Se casou, guarda com um motivo explicando a escolha.
+        if (casou) {
+          achados.push({ id: p.id, motivo: "Combina com o que você contou: " + p.tag.toLowerCase() + "." });
+        }
+      });
+      // Nada casou: sugere itens essenciais e avisa.
+      if (achados.length === 0) {
+        achados.push(
+          { id: 1, motivo: "Clássico da loja: nutrição completa para o dia a dia." },
+          { id: 7, motivo: "Conforto garantido para o descanso dele." },
+          { id: 3, motivo: "Um mimo que todo cão adora." },
+        );
+        resumo.textContent = "Não tenho certeza do cenário, mas estes são os favoritos da PetzAmigo:";
+      } else {
+        // Limita a no máximo 4 recomendações.
+        const melhores = achados.slice(0, 4);
+        achados.length = 0;
+        achados.push(...melhores);
+        resumo.textContent = "Com base no que você contou, estes são os produtos certos:";
+      }
+      // Mostra o resumo e desenha cada item recomendado.
+      resumo.style.display = "block";
+      achados.forEach(function (r) {
+        // Encontra o produto correspondente no catálogo.
+        const p = PRODUTOS.find(function (x) { return x.id === r.id; });
+        // Cria o cartão com miniatura, motivo, preço e botão adicionar.
+        const item = document.createElement("div");
+        item.className = "recomendado";
+        item.innerHTML =
+          '<div class="mini" style="font-size: 2rem; display:flex; align-items:center; justify-content:center;">' + p.emoji + "</div>" +
+          '<div style="display:flex; flex-direction:column; flex:1;">' +
+          '<p class="nome">' + p.nome + "</p>" +
+          '<p class="motivo">' + r.motivo + "</p>" +
+          '<div class="linha">' +
+          '<span style="font-weight:700; color: var(--primary);">' + brl(p.preco) + "</span>" +
+          '<button class="btn btn-outline" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;">Adicionar</button>' +
+          "</div>" +
+          "</div>";
+        // Ao clicar em Adicionar, coloca no carrinho e abre o painel.
+        item.querySelector("button").addEventListener("click", function () {
+          adicionarAoCarrinho(p.id);
+        });
+        // Insere na lista.
+        lista.appendChild(item);
+      });
+    }
+
+    // ================================================================
+    // BANHO & TOSA — adicionais, cena e animação
+    // ================================================================
+    // Calcula o total do banho (base + adicionais escolhidos).
+    function totalBanho() {
+      // Começa pelo preço base.
+      let total = BANHO_BASE.preco;
+      // Soma cada adicional selecionado.
+      extras.forEach(function (id) {
+        const a = ADICIONAIS.find(function (x) { return x.id === id; });
+        total += a.preco;
+      });
+      // Devolve o valor final.
+      return total;
+    }
+
+    // Desenha os cards dos adicionais.
+    function renderizarAdicionais() {
+      // Pega a grade.
+      const grade = document.getElementById("grade-adicionais");
+      // Começa vazia.
+      grade.innerHTML = "";
+      // Percorre cada adicional.
+      ADICIONAIS.forEach(function (a) {
+        // Verifica se está selecionado.
+        const ativo = extras.includes(a.id);
+        // Cria o card clicável.
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "adicional" + (ativo ? " selecionado" : "");
+        // Conteúdo: nome, preço, descrição e rótulo de ação.
+        card.innerHTML =
+          '<div class="linha-topo">' +
+          '<span class="nome">' + a.nome + "</span>" +
+          '<span class="preco">' + brl(a.preco) + "</span>" +
+          "</div>" +
+          '<p class="desc">' + a.desc + "</p>" +
+          '<span class="acao">' + (ativo ? "Selecionado" : "Adicionar") + "</span>";
+        // Desabilita enquanto o banho está rodando.
+        card.disabled = banhoRodando;
+        // Ao clicar, liga/desliga o adicional.
+        card.addEventListener("click", function () {
+          alternarAdicional(a.id);
+        });
+        // Insere na grade.
+        grade.appendChild(card);
+      });
+    }
+
+    // Liga ou desliga um adicional.
+    function alternarAdicional(id) {
+      // Se já está selecionado, remove.
+      if (extras.includes(id)) {
+        extras = extras.filter(function (x) { return x !== id; });
+      } else {
+        // Caso contrário, adiciona.
+        extras.push(id);
+      }
+      // Atualiza os cards e o resumo.
+      renderizarAdicionais();
+      renderizarResumoBanho();
+    }
+
+    // Monta o resumo lateral (itens + total) e o link do WhatsApp.
+    function renderizarResumoBanho() {
+      // Elementos da tela.
+      const resumo = document.getElementById("resumo-banho");
+      const link = document.getElementById("link-reserva");
+      // Monta o resumo em texto (usado na mensagem do WhatsApp).
+      const texto = BANHO_BASE.nome + " (" + brl(BANHO_BASE.preco) + ")" +
+        extras.map(function (id) {
+          const a = ADICIONAIS.find(function (x) { return x.id === id; });
+          return " + " + a.nome + " (" + brl(a.preco) + ")";
+        }).join("");
+      // Mensagem completa enviada ao WhatsApp.
+      const mensagem = "Olá! Quero reservar um banho: " + texto + ". Total " + brl(totalBanho()) + ".";
+      // Desenha as linhas do resumo.
+      resumo.innerHTML =
+        '<div class="linha"><span class="nome">' + BANHO_BASE.nome + '</span><span class="valor">' + brl(BANHO_BASE.preco) + "</span></div>" +
+        extras.map(function (id) {
+          const a = ADICIONAIS.find(function (x) { return x.id === id; });
+          return '<div class="linha"><span class="nome">' + a.nome + '</span><span class="valor">' + brl(a.preco) + "</span></div>";
+        }).join("") +
+        '<div class="linha total"><span style="font-weight:700;">Total</span><span class="valor">' + brl(totalBanho()) + "</span></div>";
+      // Atualiza o link de reserva.
+      link.href = whatsappLink(mensagem);
+    }
+
+    // Cria as bolhas de sabão da cena (posicionadas no palco).
+    function criarBolhas() {
+      // Pega o contêiner das bolhas.
+      const cont = document.getElementById("bolhas");
+      // Começa vazio.
+      cont.innerHTML = "";
+      // Cria 12 bolhas em posições variadas.
+      for (let i = 0; i < 12; i++) {
+        const bolha = document.createElement("span");
+        bolha.className = "bolha";
+        // Posição e tamanho variados para parecer natural.
+        bolha.style.left = (8 + i * 7.5) + "%";
+        bolha.style.width = (10 + (i % 4) * 7) + "px";
+        bolha.style.height = (10 + (i % 4) * 7) + "px";
+        bolha.style.animationDelay = ((i % 6) * 0.5) + "s";
+        // Insere na cena.
+        cont.appendChild(bolha);
+      }
+    }
+
+    // Inicia a animação do banho com barra de progresso.
+    function darBanho() {
+      // Evita reiniciar durante o banho.
+      if (banhoRodando) return;
+      // Marca como em execução.
+      banhoRodando = true;
+      // Esconde a mensagem anterior e zera a barra.
+      document.getElementById("mensagem-banho").style.display = "none";
+      document.getElementById("progresso").style.display = "block";
+      document.getElementById("progresso-preenchido").style.width = "0%";
+      document.getElementById("progresso-texto").textContent = "Dando banho... 0%";
+      // Ativa a cena (chuveiro, bolhas, banheira, espuma).
+      document.getElementById("cena").classList.add("banho");
+      document.getElementById("espuma").style.display = "";
+      // Guarda o valor do banho (não muda se o cliente mexer depois).
+      const valor = totalBanho();
+      // Progresso de 0 a 100, subindo de 3 em 3 a cada 90ms.
+      let progresso = 0;
+      const timer = setInterval(function () {
+        progresso += 3;
+        // Limita em 100 e finaliza o banho.
+        if (progresso >= 100) {
+          clearInterval(timer);
+          progresso = 100;
+          banhoRodando = false;
+          document.getElementById("progresso").style.display = "none";
+          document.getElementById("cena").classList.remove("banho");
+          document.getElementById("espuma").style.display = "none";
+          // Mensagem de conclusão com o valor.
+          document.getElementById("mensagem-banho").textContent = "Banho concluído — " + brl(valor) + ". Seu cão está impecável.";
+          document.getElementById("mensagem-banho").style.display = "block";
+        }
+        // Atualiza a barra e o texto de progresso.
+        document.getElementById("progresso-preenchido").style.width = progresso + "%";
+        document.getElementById("progresso-texto").textContent = "Dando banho... " + progresso + "%";
+      }, 90);
+    }
+
+    // ================================================================
+    // NAVEGAÇÃO ENTRE PÁGINAS (com carregamento animado)
+    // ================================================================
+    // Troca de página mostrando o cachorrinho de carregamento.
+    function trocarPagina(destino) {
+      // Se já está na página pedida, não faz nada.
+      if (paginaAtual === destino) return;
+      // Mostra a tela de carregamento.
+      document.getElementById("carregando").classList.add("ativo");
+      // Simula o carregamento por 700ms (cachorrinho pulando).
+      setTimeout(function () {
+        // Esconde a página atual.
+        document.getElementById("pagina-" + paginaAtual).classList.remove("ativa");
+        // Mostra a página de destino.
+        document.getElementById("pagina-" + destino).classList.add("ativa");
+        // Atualiza o controle da página atual.
+        paginaAtual = destino;
+        // O ícone do cachorro some na página inicial.
+        document.getElementById("flutuante-cachorro").classList.toggle("oculto", destino === "loja");
+        // Volta ao topo da página.
+        window.scrollTo({ top: 0 });
+        // Esconde a tela de carregamento.
+        document.getElementById("carregando").classList.remove("ativo");
+      }, 700);
+    }
+
+    // Rola suavemente até a vitrine de produtos.
+    function rolarParaProdutos() {
+      document.getElementById("produtos").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ================================================================
+    // INICIALIZAÇÃO — roda quando a página carrega
+    // ================================================================
+    // Ano atual no rodapé.
+    document.getElementById("ano").textContent = new Date().getFullYear();
+    // Link do WhatsApp flutuante com saudação padrão.
+    document.getElementById("flutuante-whatsapp").href = whatsappLink("Olá! Vim pelo site da PetzAmigo e quero fazer um pedido.");
+    // Desenha a vitrine.
+    renderizarProdutos();
+    // Prepara o carrinho vazio.
+    renderizarCarrinho();
+    // Cria as bolhas da cena de banho.
+    criarBolhas();
+    // Desenha os adicionais e o resumo.
+    renderizarAdicionais();
+    renderizarResumoBanho();
+  </script>
+</body>
+
+</html>
